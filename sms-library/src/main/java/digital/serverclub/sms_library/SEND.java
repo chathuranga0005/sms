@@ -2,7 +2,10 @@ package digital.serverclub.sms_library;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public  class SEND extends AsyncTask<String ,Void,String> {
     String msg="";
@@ -85,6 +90,7 @@ public  class SEND extends AsyncTask<String ,Void,String> {
             //token
             JSONObject jo = new JSONObject(result);
             message = jo.getString("message");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
