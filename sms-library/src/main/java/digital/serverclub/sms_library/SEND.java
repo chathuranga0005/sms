@@ -1,8 +1,11 @@
 package digital.serverclub.sms_library;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,7 +36,6 @@ public  class SEND extends AsyncTask<String ,Void,String> {
 
     @Override
     protected String doInBackground(String... params) {
-
 
         String updateTeacher="https://slh.nebuloapps.com/SMS/serverclub-sms-api-master/send_sms.php";
 
@@ -88,22 +90,44 @@ public  class SEND extends AsyncTask<String ,Void,String> {
     protected void onPostExecute(String result) {
 
 
-        String message = null;
-        try {
-            //token
-            JSONObject jo = new JSONObject(result);
-            message = jo.getString("message");
+        ProgressDialog dialog;
+        dialog = new ProgressDialog(c);
+        dialog.setMessage("Sending...");
+        dialog.show();
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(c);
-            alertDialogBuilder.setTitle("Message Status");
-            alertDialogBuilder.setMessage(message);
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+        new CountDownTimer(1000, 100) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                dialog.dismiss();
+                String message = null;
+                String user = null;
+                try {
+                    //token
+                    JSONObject jo = new JSONObject(result);
+                    message = jo.getString("message");
+                    user = jo.getString("user");
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(c);
+                    alertDialogBuilder.setTitle("Message Status");
+                    alertDialogBuilder.setMessage(user+"\n"+message);
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
+
+
+
+
 
     }
 
