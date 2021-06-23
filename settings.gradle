@@ -1,0 +1,3 @@
+include ':sms-library'
+include ':app'
+rootProject.name = "Send_SMS"
