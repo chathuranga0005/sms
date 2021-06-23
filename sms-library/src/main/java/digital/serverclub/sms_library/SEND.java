@@ -1,5 +1,6 @@
 package digital.serverclub.sms_library;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
@@ -25,7 +26,9 @@ import java.net.URLEncoder;
 import static android.widget.Toast.LENGTH_LONG;
 
 public  class SEND extends AsyncTask<String ,Void,String> {
+    Context c;
     String msg="";
+    public SEND(Context ctx){c=ctx;}
 
 
     @Override
@@ -90,6 +93,13 @@ public  class SEND extends AsyncTask<String ,Void,String> {
             //token
             JSONObject jo = new JSONObject(result);
             message = jo.getString("message");
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(c);
+            alertDialogBuilder.setTitle("Message Status");
+            alertDialogBuilder.setMessage(message);
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
 
         } catch (JSONException e) {
             e.printStackTrace();
